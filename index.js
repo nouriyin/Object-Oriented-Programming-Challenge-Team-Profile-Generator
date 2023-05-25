@@ -2,6 +2,11 @@ const Manager = require("./lib/Manager")
 const Engineer = require("./lib/Engineer")
 const Intern = require("./lib/Intern")
 
+const body = require('./src/body')
+const engineerCard = require("./src/engineerCard")
+const managerCard = require("./src/managerCard")
+const internCard = require("./src/internCard")
+
 const inquirer = require("inquirer")
 const fs = require("fs")
 const team = []
@@ -55,6 +60,19 @@ function addEmployee() {
 }
 function buildTeam() {
     console.log(team)
+    let cards = ""
+    for (let i = 0; i < team.length; i++) {
+        if (team[i].getRole() === "Manager") {
+            cards += managerCard(team[i])
+        }
+        if (team[i].getRole() === "Engineer") {
+            cards += engineerCard(team[i])
+        }
+        if (team[i].getRole() === "Intern") {
+            cards += internCard(team[i])
+        }
+    }
+    fs.writeFileSync("./dist/team.html", body(cards))
 }
 
 function addIntern() {
